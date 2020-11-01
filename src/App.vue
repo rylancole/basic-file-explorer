@@ -1,17 +1,46 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <el-button>Default</el-button>
+  <el-menu>
+    <el-menu-item @click="handleItemClick">Item 1</el-menu-item>
+  </el-menu>
+  <FolderView v-bind:entries="entries" />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import { promisified } from 'tauri/api/tauri'
+import FolderView from './components/FolderView.vue';
 
-export default {
-  name: 'App',
+@Options({
   components: {
-    HelloWorld
+    FolderView,
+  },
+  data () {
+    return {
+      entries: []
+    }
+  },
+  created () {
+    this.getEntries();
+  },
+  methods: {
+    handleItemClick () {
+      console.log("Hello Item")
+    },
+    getEntries () {
+      promisified({
+        cmd: "getChildren",
+        path: "/Users/rylancole/Documents/3D Printer"
+      }).then((response: any) => {
+        const { entries } = response;
+        this.entries = entries;
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   }
-}
+})
+export default class App extends Vue {}
 </script>
 
 <style>
@@ -19,8 +48,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
