@@ -1,19 +1,20 @@
 <template>
-  <el-button>Default</el-button>
-  <el-menu>
-    <el-menu-item @click="handleItemClick">Item 1</el-menu-item>
-  </el-menu>
-  <FolderView v-bind:entries="entries" />
+  <w-app>
+    <NavBar v-bind:entries="entries" />
+    <FolderView />
+  </w-app>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { promisified } from 'tauri/api/tauri'
+import NavBar from './components/NavBar.vue';
 import FolderView from './components/FolderView.vue';
 
 @Options({
   components: {
     FolderView,
+    NavBar,
   },
   data () {
     return {
@@ -24,9 +25,6 @@ import FolderView from './components/FolderView.vue';
     this.getEntries();
   },
   methods: {
-    handleItemClick () {
-      console.log("Hello Item")
-    },
     getEntries () {
       promisified({
         cmd: "getChildren",

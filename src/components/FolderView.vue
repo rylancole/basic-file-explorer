@@ -1,27 +1,27 @@
 <template>
-  <div v-for="entry in entries" :key="entry">
-    <EntryButton v-bind:label="entry"/>
+  <div>
+    {{ msg }}
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import EntryButton from './EntryButton.vue'
 
 @Options({
-  props: {
-    entries: Array,
+  data () {
+    return {
+      msg: "Hello World",
+    };
   },
-  components: {
-    EntryButton
-  },
-})
-export default class FolderView extends Vue {}
+});
+export default class FolderView extends Vue {};
 </script>
 
-<style>
+<style scoped>
 div {
-  display: flex;
-  flex-direction: column;
+  margin-left: 200px;
+  margin-right: 25px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 </style>

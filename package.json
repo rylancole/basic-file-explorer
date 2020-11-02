@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "element-plus": "^1.0.1-alpha.10",
     "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0"
+    "vue-class-component": "^8.0.0-0",
+    "wave-ui": "^2.4.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
@@ -33,7 +33,6 @@
     "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-element-plus": "0.0.3",
     "vue-cli-plugin-tauri": "~0.12.1"
   },
   "eslintConfig": {
