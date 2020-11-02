@@ -10,11 +10,10 @@ import { Options, Vue } from "vue-class-component";
 @Options({
   props: {
     path: String,
-    paddingLeft: Number,
+    paddingLeft: String,
   },
 })
 export default class FolderView extends Vue {}
 </script>
 
-<style scoped>
-</style>
+<style></style>

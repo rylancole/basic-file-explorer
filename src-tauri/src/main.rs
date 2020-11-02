@@ -9,7 +9,7 @@ use std::path::Path;
 #[derive(Deserialize)]
 #[serde(tag = "cmd", rename_all = "camelCase")]
 enum Cmd {
-  GetChildren {
+  GetEntries {
     path: String,
     callback: String,
     error: String,
@@ -23,7 +23,7 @@ struct Entry {
 }
 
 #[derive(Serialize)]
-struct GetChildrenResponse {
+struct GetEntriesResponse {
   entries: Vec<Entry>,
 }
 
@@ -50,7 +50,7 @@ impl<'a> std::fmt::Display for CommandError<'a> {
 // and the function call should call `.into()` on it
 impl<'a> std::error::Error for CommandError<'a> {}
 
-fn get_entries(dir: &Path) -> io::Result<GetChildrenResponse> {
+fn get_entries(dir: &Path) -> io::Result<GetEntriesResponse> {
   let mut entries: Vec<Entry> = Vec::new();
 
   for entry in fs::read_dir(dir)? {
@@ -70,7 +70,7 @@ fn get_entries(dir: &Path) -> io::Result<GetChildrenResponse> {
       entries.push(data);
     }
   }
-  let response = GetChildrenResponse { entries: entries };
+  let response = GetEntriesResponse { entries: entries };
   Ok(response)
 }
 
@@ -82,7 +82,7 @@ fn main() {
         Err(e) => Err(e.to_string()),
         Ok(command) => {
           match command {
-            GetChildren {
+            GetEntries {
               path,
               callback,
               error,
