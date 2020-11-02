@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "fmt": "cargo fmt --manifest-path ./src-tauri/Cargo.toml",
+    "fmt": "cargo fmt --manifest-path ./src-tauri/Cargo.toml & npx prettier --write src",
     "tauri:build": "vue-cli-service tauri:build",
     "tauri:serve": "vue-cli-service tauri:serve"
   },
@@ -31,6 +31,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
     "node-sass": "^4.13.0",
+    "prettier": "2.1.2",
     "sass-loader": "^8.0.0",
     "typescript": "~3.9.3",
     "vue-cli-plugin-tauri": "~0.12.1"
