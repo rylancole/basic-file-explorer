@@ -1,45 +1,48 @@
 <template>
-  <w-drawer v-model="showNavBar" persistent left no-overlay width="175px">
-    <w-list :items="items" hover @click="handleItemClick" />
+  <w-drawer v-model="showNavBar" persistent left no-overlay v-bind:width="width">
+    <w-list v-model="selected" :items="items" hover @click="handleItemClick" />
   </w-drawer>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+const PWD = '.';
 
 @Options({
   props: {
     entries: Array,
-  },
-  computed: {
-    items() {
-      let items = [];
-      for (let entry of this.entries) {
-        items.push({ label: entry });
-      }
-      return items;
-    },
-    btnLabel() {
-      if (this.showNavBar) {
-        return "Close";
-      } else {
-        return "Open";
-      }
-    },
+    setPathEnd: Function,
+    width: String,
   },
   methods: {
     handleItemClick(mouseEvent: any) {
-      console.log(mouseEvent.target.outerText);
-    },
-    handleViewToggle() {
-      this.showNavBar = !this.showNavBar;
+      let label = mouseEvent.target.outerText;
+      if(label === PWD) {
+        this.setPathEnd('');
+      } else {
+        this.setPathEnd('/'+label);
+      }
+      this.selected = label;
     },
   },
   data() {
     return {
       showNavBar: true,
+      default: { label: PWD, is_folder: true },
+      selected: 'Local',
     };
   },
+  computed: {
+    items() {
+      let items = [this.default];
+      for (let entry of this.entries) {
+        if(entry.is_folder) {
+          items.push(entry);
+        }
+      }
+      return items;
+    }
+  }
 })
 export default class NavBar extends Vue {}
 </script>

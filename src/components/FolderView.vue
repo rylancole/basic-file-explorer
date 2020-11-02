@@ -1,27 +1,20 @@
 <template>
-  <div>
-    {{ msg }}
+  <div :style="{ margin: '25px', 'margin-left': paddingLeft }">
+    {{ path }}
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { Options, Vue } from "vue-class-component";
 
 @Options({
-  data () {
-    return {
-      msg: "Hello World",
-    };
+  props: {
+    path: String,
+    paddingLeft: Number,
   },
-});
-export default class FolderView extends Vue {};
+})
+export default class FolderView extends Vue {}
 </script>
 
 <style scoped>
-div {
-  margin-left: 200px;
-  margin-right: 25px;
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <w-app>
-    <NavBar v-bind:entries="entries" />
-    <FolderView />
+    <NavBar :entries="entries" :width="navBarWidth+'px'" :setPathEnd="setPathEnd" />
+    <FolderView :path="PATH + pathEnd" :paddingLeft="(navBarWidth+25)+'px'" />
   </w-app>
 </template>
 
@@ -19,16 +19,19 @@ import FolderView from "./components/FolderView.vue";
   data() {
     return {
       entries: [],
+      PATH: "/Users/rylancole/Documents/3D Printer",
+      pathEnd: "/Local",
+      navBarWidth: 175
     };
   },
   created() {
-    this.getEntries();
+    this.getEntries(this.PATH);
   },
   methods: {
-    getEntries() {
+    getEntries(path: String) {
       promisified({
         cmd: "getChildren",
-        path: "/Users/rylancole/Documents/3D Printer",
+        path: path,
       })
         .then((response: any) => {
           const { entries } = response;
@@ -37,6 +40,9 @@ import FolderView from "./components/FolderView.vue";
         .catch((error) => {
           console.log(error);
         });
+    },
+    setPathEnd(value: String) {
+      this.pathEnd = value;
     },
   },
 })

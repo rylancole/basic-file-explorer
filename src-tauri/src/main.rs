@@ -17,8 +17,14 @@ enum Cmd {
 }
 
 #[derive(Serialize)]
+struct Entry {
+  label: String,
+  is_folder: bool,
+}
+
+#[derive(Serialize)]
 struct GetChildrenResponse {
-  entries: Vec<String>,
+  entries: Vec<Entry>,
 }
 
 // An error type we define
@@ -45,15 +51,23 @@ impl<'a> std::fmt::Display for CommandError<'a> {
 impl<'a> std::error::Error for CommandError<'a> {}
 
 fn get_entries(dir: &Path) -> io::Result<GetChildrenResponse> {
-  let mut entries: Vec<String> = Vec::new();
+  let mut entries: Vec<Entry> = Vec::new();
 
   for entry in fs::read_dir(dir)? {
     let entry = entry?;
     let path = entry.path();
     if path.is_dir() {
-      entries.push(entry.file_name().into_string().unwrap_or("".to_string()));
+      let data = Entry {
+        label: entry.file_name().into_string().unwrap_or("".to_string()),
+        is_folder: true,
+      };
+      entries.push(data);
     } else {
-      entries.push(entry.file_name().into_string().unwrap_or("".to_string()));
+      let data = Entry {
+        label: entry.file_name().into_string().unwrap_or("".to_string()),
+        is_folder: false,
+      };
+      entries.push(data);
     }
   }
   let response = GetChildrenResponse { entries: entries };
