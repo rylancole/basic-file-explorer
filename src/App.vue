@@ -3,17 +3,18 @@
     <NavBar
       :entries="entries"
       :width="navBarWidth + 'px'"
-      :setPathEnd="setPathEnd"
+      :setFolderViewPath="setFolderViewPath"
     />
-    <FolderView :path="PATH + pathEnd" :paddingLeft="navBarWidth + 25 + 'px'" />
+    <FolderView :path="folderViewPath" :paddingLeft="navBarWidth + 25 + 'px'" :setFolderViewPath="setFolderViewPath" />
   </w-app>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { promisified } from "tauri/api/tauri";
 import NavBar from "./components/NavBar.vue";
 import FolderView from "./components/FolderView.vue";
+import { DEFAULT_PATH } from "./constants";
+import getEntries from "./utils/getEntries";
 
 @Options({
   components: {
@@ -23,13 +24,13 @@ import FolderView from "./components/FolderView.vue";
   data() {
     return {
       entries: [],
-      PATH: "/Users/rylancole/Documents/3D Printer",
-      pathEnd: "/Local",
+      navBarPath: DEFAULT_PATH,
+      folderViewPath: DEFAULT_PATH,
       navBarWidth: 175,
     };
   },
   created() {
-    const res = this.getEntries(this.PATH);
+    const res = this.getEntries(this.navBarPath);
     res
       .then((response: any) => {
         const { entries } = response;
@@ -38,20 +39,13 @@ import FolderView from "./components/FolderView.vue";
       .catch((error: any) => console.log(error));
   },
   methods: {
-    getEntries(path: String) {
-      return promisified({
-        cmd: "getEntries",
-        path: path,
-      })
-        .then((response: any) => {
-          return response;
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-    setPathEnd(value: String) {
-      this.pathEnd = value;
+    getEntries,
+    setFolderViewPath(newPath: String, implyDefault = false) {
+      if (implyDefault) {
+        this.folderViewPath = DEFAULT_PATH + newPath;
+      } else {
+        this.folderViewPath = newPath;
+      }
     },
   },
 })

@@ -19,6 +19,7 @@ enum Cmd {
 #[derive(Serialize)]
 struct Entry {
   label: String,
+  full_path: String,
   is_folder: bool,
 }
 
@@ -59,12 +60,14 @@ fn get_entries(dir: &Path) -> io::Result<GetEntriesResponse> {
     if path.is_dir() {
       let data = Entry {
         label: entry.file_name().into_string().unwrap_or("".to_string()),
+        full_path: path.to_string_lossy().to_string(),
         is_folder: true,
       };
       entries.push(data);
     } else {
       let data = Entry {
         label: entry.file_name().into_string().unwrap_or("".to_string()),
+        full_path: path.to_string_lossy().to_string(),
         is_folder: false,
       };
       entries.push(data);

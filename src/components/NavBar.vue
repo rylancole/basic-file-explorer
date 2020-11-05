@@ -11,7 +11,7 @@
       v-model="selected"
       :items="items"
       hover
-      @click="handleItemClick"
+      @item-click="handleItemClick"
     />
   </w-drawer>
 </template>
@@ -23,24 +23,19 @@ const PWD = ".";
 @Options({
   props: {
     entries: Array,
-    setPathEnd: Function,
+    setFolderViewPath: Function,
     width: String,
   },
   methods: {
-    handleItemClick(mouseEvent: any) {
-      let label = mouseEvent.target.outerText;
-      if (label === PWD) {
-        this.setPathEnd("");
-      } else {
-        this.setPathEnd("/" + label);
-      }
-      this.selected = label;
+    handleItemClick(item: { value: String; full_path: String }) {
+      this.setFolderViewPath(item.full_path);
+      this.selected = item.value;
     },
   },
   data() {
     return {
       showNavBar: true,
-      default: { value: PWD, label: PWD, is_folder: true },
+      default: { value: "", label: PWD, is_folder: true },
       selected: "Local",
     };
   },
