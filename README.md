@@ -1,29 +1,55 @@
 # file-explorer
 
-## Project setup
+## Getting Started
+
+### Requirements
+
+This project requires [Rust](https://www.rust-lang.org/tools/install), [Node.js](https://nodejs.org/en/download/), and the [Vue CLI](https://cli.vuejs.org/guide/installation.html) to run.
+
+### Clone and Initialize
 
 ```
-npm install
+git clone https://github.com/rylancole/basic-file-explorer
+cd basic-file-explorer
+npm i
 ```
 
-### Compiles and hot-reloads for development
+### Run
 
 ```
-npm run serve
+npm start
 ```
 
-### Compiles and minifies for production
+This runs multiple commmands to get the project started so you don't have to:
 
 ```
-npm run build
+%> cargo fmt --manifest-path ./src-tauri/Cargo.toml
+%> npx prettier --write src
+%> vue-cli-service tauri:serve
 ```
 
-### Lints and fixes files
+## TODO
 
-```
-npm run lint
-```
+### File Manipulation
 
-### Customize configuration
+1. Move files and folders
+2. Delete files and folders
+3. Rename files and folders
+4. Create folders
+5. Open files
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Settings
+
+1. Set-up default folder on open
+2. Edit sidebar 
+  a. Add folder to sidebar
+  b. remove folder from sidebar
+
+### Cross-Platform
+
+1. Create compatibility with Linux
+2. Create compatibility with Windows
+
+
+
+

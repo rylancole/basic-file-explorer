@@ -9,7 +9,8 @@
     "lint": "vue-cli-service lint",
     "fmt": "cargo fmt --manifest-path ./src-tauri/Cargo.toml & npx prettier --write src",
     "tauri:build": "vue-cli-service tauri:build",
-    "tauri:serve": "vue-cli-service tauri:serve"
+    "tauri:serve": "vue-cli-service tauri:serve",
+    "cargo": "cd ./src-tauri && cargo build && cd .."
   },
   "dependencies": {
     "@mdi/font": "^5.8.55",

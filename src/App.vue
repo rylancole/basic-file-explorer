@@ -5,7 +5,11 @@
       :width="navBarWidth + 'px'"
       :setFolderViewPath="setFolderViewPath"
     />
-    <FolderView :path="folderViewPath" :paddingLeft="navBarWidth + 25 + 'px'" :setFolderViewPath="setFolderViewPath" />
+    <FolderView
+      :path="folderViewPath"
+      :paddingLeft="navBarWidth + 25 + 'px'"
+      v-on:set-folder-view-path="setFolderViewPath"
+    />
   </w-app>
 </template>
 
@@ -40,12 +44,8 @@ import getEntries from "./utils/getEntries";
   },
   methods: {
     getEntries,
-    setFolderViewPath(newPath: String, implyDefault = false) {
-      if (implyDefault) {
-        this.folderViewPath = DEFAULT_PATH + newPath;
-      } else {
-        this.folderViewPath = newPath;
-      }
+    setFolderViewPath(path: String) {
+      this.folderViewPath = path;
     },
   },
 })

@@ -1,8 +1,9 @@
+use regex::Regex;
 use serde::{Deserialize, Serialize};
-use std::fs;
+use std::ffi::OsString;
+use std::fs::{self, DirEntry};
 use std::io;
 use std::path::Path;
-// use std::ffi::OsString;
 
 // The commands definitions
 // Deserialized from JS
@@ -51,25 +52,27 @@ impl<'a> std::fmt::Display for CommandError<'a> {
 // and the function call should call `.into()` on it
 impl<'a> std::error::Error for CommandError<'a> {}
 
+fn is_invisible(file_name: OsString) -> bool {
+  let re = Regex::new(r"^\..*").unwrap();
+  return re.is_match(file_name.to_str().unwrap());
+}
+
+fn generate_entry(entry: DirEntry) -> Entry {
+  let path = entry.path();
+  return Entry {
+    label: entry.file_name().into_string().unwrap(),
+    full_path: path.to_string_lossy().to_string(),
+    is_folder: path.is_dir(),
+  };
+}
+
 fn get_entries(dir: &Path) -> io::Result<GetEntriesResponse> {
   let mut entries: Vec<Entry> = Vec::new();
 
   for entry in fs::read_dir(dir)? {
     let entry = entry?;
-    let path = entry.path();
-    if path.is_dir() {
-      let data = Entry {
-        label: entry.file_name().into_string().unwrap_or("".to_string()),
-        full_path: path.to_string_lossy().to_string(),
-        is_folder: true,
-      };
-      entries.push(data);
-    } else {
-      let data = Entry {
-        label: entry.file_name().into_string().unwrap_or("".to_string()),
-        full_path: path.to_string_lossy().to_string(),
-        is_folder: false,
-      };
+    if !is_invisible(entry.file_name()) {
+      let data = generate_entry(entry);
       entries.push(data);
     }
   }

@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { DEFAULT_PATH } from "../constants";
 const PWD = ".";
 
 @Options({
@@ -35,7 +36,12 @@ const PWD = ".";
   data() {
     return {
       showNavBar: true,
-      default: { value: "", label: PWD, is_folder: true },
+      default: {
+        value: "",
+        label: PWD,
+        full_path: DEFAULT_PATH,
+        is_folder: true,
+      },
       selected: "Local",
     };
   },

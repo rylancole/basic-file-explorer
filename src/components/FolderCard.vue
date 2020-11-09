@@ -2,8 +2,10 @@
   <EntryCard
     v-if="entry"
     :label="entry.label"
+    :isSelected="isSelected"
     :iconValue="'mdi mdi-folder'"
-    :handleClick="handleClick"
+    v-on:entry-click="$emit('folder-click', entry)"
+    v-on:entry-dblclick="$emit('folder-dblclick', entry)"
   />
 </template>
 
@@ -14,16 +16,17 @@ import EntryCard from "./EntryCard.vue";
 @Options({
   props: {
     entry: Object,
-    setFolderViewPath: Function,
+    selected: Array,
   },
   components: {
     EntryCard,
   },
-  methods: {
-    handleClick() {
-      this.setFolderViewPath(this.entry.full_path);
-    }
-  }
+  computed: {
+    isSelected() {
+      return this.selected.includes(this.entry.full_path);
+    },
+  },
+  emits: ["folder-click", "folder-dblclick"],
 })
 export default class FolderCard extends Vue {}
 </script>
